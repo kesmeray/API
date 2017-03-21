@@ -1,0 +1,43 @@
+<html>
+<head>
+
+<link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+<script>
+$(function() {
+    $("#rechercher").keypress(function(e){
+    	if(e.keyCode===13){
+var rechercher = $("#rechercher").val();
+ var url = "https://en.wikipedia.org/w/api.php?action=opensearch&search="+ rechercher +"&format=json&callback=?"; 
+		    $.ajax({
+			url: url,
+			type: 'GET',
+			contentType: "application/json; charset=utf-8",
+			async: false,
+        	dataType: "json",
+        	success: function(data, status, jqXHR) {
+        	console.log(data);
+        $("#output").html();
+        
+        for(var i=0;i<data[1].length;i++){
+        $("#output").prepend("<div class='well'><a href="+data[3][i]+"><h2>" + data[1][i]+ "</h2>" + "<p>" + data[2][i] + "</p></a></div><hr>");
+        		}}})}});
+	});
+		      
+</script>
+</head>
+
+<body background="http://jess3.com/media/projects/127/wiki_02_00_preview.jpg">
+<div class="container">
+<h1>API Wikipedia </h1>
+<hr>
+<input id="rechercher" name="search" placeholder="Rechercher" style="width:80%;">
+<button id='search' type="button" class ="btn btn-primary">Rechercher</button>
+<hr>
+<div id="output"></div>
+
+</div>
+</body>
+</html>
+
